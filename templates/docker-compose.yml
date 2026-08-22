@@ -1,0 +1,9 @@
+services:
+  project_name:
+    build: .
+    container_name: project_name
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app
+      - /app/build
