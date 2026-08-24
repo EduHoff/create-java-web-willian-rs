@@ -1,7 +1,13 @@
 use std::path::Path;
 
 use clearscreen::clear;
-use create_java_web_willian_rs::builder::filesystem::create_project_structure;
+use create_java_web_willian_rs::builder::{
+    filesystem::create_project_structure,
+    generator::{
+        generate_build_file, generate_context_file, generate_css_file, generate_docker_files,
+        generate_gitignore_file, generate_index_file, generate_license_file, generate_readme_file,
+    },
+};
 use dialoguer::{Input, theme::ColorfulTheme};
 use regex::Regex;
 
@@ -26,6 +32,46 @@ fn main() {
 
     if let Err(err) = create_project_structure(project_path) {
         eprintln!("Error creating the folder structure: {err}");
+        std::process::exit(1);
+    }
+
+    if let Err(err) = generate_build_file(project_path, &project_name) {
+        eprintln!("Error generating README file: {err}");
+        std::process::exit(1);
+    }
+
+    if let Err(err) = generate_context_file(project_path, &project_name) {
+        eprintln!("Error generating README file: {err}");
+        std::process::exit(1);
+    }
+
+    if let Err(err) = generate_index_file(project_path, &project_name) {
+        eprintln!("Error generating README file: {err}");
+        std::process::exit(1);
+    }
+
+    if let Err(err) = generate_css_file(project_path) {
+        eprintln!("Error generating README file: {err}");
+        std::process::exit(1);
+    }
+
+    if let Err(err) = generate_readme_file(project_path, &project_name) {
+        eprintln!("Error generating README file: {err}");
+        std::process::exit(1);
+    }
+
+    if let Err(err) = generate_license_file(project_path) {
+        eprintln!("Error generating LICENSE file: {err}");
+        std::process::exit(1);
+    }
+
+    if let Err(err) = generate_gitignore_file(project_path) {
+        eprintln!("Error generating .gitignore file: {err}");
+        std::process::exit(1);
+    }
+
+    if let Err(err) = generate_docker_files(project_path, &project_name) {
+        eprintln!("Error generating Docker files: {err}");
         std::process::exit(1);
     }
 

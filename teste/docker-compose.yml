@@ -1,7 +1,7 @@
 services:
   app:
     build: .
-    container_name: project_name_app
+    container_name: teste_app
     ports:
       - "8081:8080"
     environment:
@@ -15,7 +15,7 @@ services:
 
   db:
     image: mysql:8.0
-    container_name: project_name_db
+    container_name: teste_db
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
