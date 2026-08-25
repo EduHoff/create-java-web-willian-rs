@@ -1,4 +1,4 @@
-DB_HOST=db
+DB_HOST=host.docker.internal
 DB_PORT=project_db_port
 DB_NAME=project_db_name
 DB_USER=project_db_user
