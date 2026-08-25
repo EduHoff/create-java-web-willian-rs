@@ -10,6 +10,7 @@ const WEB_XML: &str = include_str!("../../templates/web.xml");
 
 const INDEX_JSP: &str = include_str!("../../templates/index.jsp");
 const STYLE_CSS: &str = include_str!("../../templates/style.css");
+const LOGO: &[u8] = include_bytes!("../../templates/logo.png");
 
 const README: &str = include_str!("../../templates/README.md");
 const LICENSE: &str = include_str!("../../templates/LICENSE");
@@ -83,6 +84,18 @@ pub fn generate_css_file(project_path: &Path) -> io::Result<()> {
         .join("style.css");
 
     fs::write(css_file_path, STYLE_CSS)?;
+
+    Ok(())
+}
+
+pub fn generate_logo_file(project_path: &Path) -> io::Result<()> {
+    let logo_file_path = project_path
+        .join("web")
+        .join("assets")
+        .join("img")
+        .join("logo.png");
+
+    fs::write(logo_file_path, LOGO)?;
 
     Ok(())
 }

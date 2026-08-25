@@ -4,6 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <title>project_name</title>
+        <link rel="icon" type="image/png" href="assets/img/logo.png">
         <link rel="stylesheet" href="assets/css/style.css">
     </head>
     <body>

@@ -6,7 +6,7 @@ use create_java_web_willian_rs::builder::{
     generator::{
         download_mysql_connector, generate_build_file, generate_context_file, generate_css_file,
         generate_docker_files, generate_env_files, generate_gitignore_file, generate_index_file,
-        generate_license_file, generate_readme_file, generate_web_xml,
+        generate_license_file, generate_logo_file, generate_readme_file, generate_web_xml,
     },
 };
 use dialoguer::{Confirm, Input, theme::ColorfulTheme};
@@ -88,9 +88,7 @@ fn main() {
         std::process::exit(1);
     }
 
-    if let Err(err) =
-        generate_context_file(project_path, &db_name, &db_user, &db_pass)
-    {
+    if let Err(err) = generate_context_file(project_path, &db_name, &db_user, &db_pass) {
         eprintln!("Error generating context.xml file: {err}");
         std::process::exit(1);
     }
@@ -107,6 +105,11 @@ fn main() {
 
     if let Err(err) = generate_css_file(project_path) {
         eprintln!("Error generating style.css file: {err}");
+        std::process::exit(1);
+    }
+
+    if let Err(err) = generate_logo_file(project_path) {
+        eprintln!("Error generating logo.png file: {err}");
         std::process::exit(1);
     }
 
