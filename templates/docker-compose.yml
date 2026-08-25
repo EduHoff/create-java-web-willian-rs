@@ -1,27 +1,30 @@
 services:
   app:
     build: .
-    container_name: project_name_app
+    container_name: ${PROJECT_NAME:-my_app}
     ports:
-      - "8081:8080"
+      - "${APP_PORT:-8081}:8080"
+    env_file:
+      - path: .env
+        required: false
     environment:
       - DB_HOST=db
-      - DB_PORT=3306
-      - DB_NAME=meudb
-      - DB_USER=root
-      - DB_PASS=root
-    depends_on:
-      - db
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_NAME=${DB_NAME:-myapp_db}
+      - DB_USER=${DB_USER:-admin}
+      - DB_PASS=${DB_PASS:-123}
 
   db:
     image: mysql:8.0
-    container_name: project_name_db
+    container_name: ${PROJECT_NAME:-my_app}_db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: meudb
+      MYSQL_ROOT_PASSWORD: ${DB_PASS:-123}
+      MYSQL_DATABASE: ${DB_NAME:-myapp_db}
+      MYSQL_USER: ${DB_USER:-admin}
+      MYSQL_PASSWORD: ${DB_PASS:-123}
     ports:
-      - "3306:3306"
+      - "${DB_PORT:-3306}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
 
