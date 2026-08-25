@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/project_name">
-    <Resource name="jdbc/MeuDB"
+<Context path="" reloadable="true">
+    <Resource name="jdbc/project_db_name"
               auth="Container"
               type="javax.sql.DataSource"
               maxTotal="20"
               maxIdle="10"
               maxWaitMillis="-1"
-              username="root"
-              password="root"
+              username="project_db_user"
+              password="project_db_pass"
               driverClassName="com.mysql.cj.jdbc.Driver"
-              url="jdbc:mysql://db:3306/meudb?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC"/>
-    </Context>
+              url="jdbc:mysql://db:3306/project_db_name?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC"/>
+</Context>

@@ -5,9 +5,7 @@
          version="4.0">
 
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
 
     <welcome-file-list>

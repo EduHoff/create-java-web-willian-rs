@@ -38,13 +38,11 @@ pub fn generate_build_file(project_path: &Path, project_name: &str) -> io::Resul
 
 pub fn generate_context_file(
     project_path: &Path,
-    project_name: &str,
     db_name: &str,
     db_user: &str,
     db_pass: &str,
 ) -> io::Result<()> {
     let content = CONTEXT_XML
-        .replace("project_name", project_name)
         .replace("project_db_name", db_name)
         .replace("project_db_user", db_user)
         .replace("project_db_pass", db_pass);

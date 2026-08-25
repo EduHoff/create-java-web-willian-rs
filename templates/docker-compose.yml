@@ -13,6 +13,8 @@ services:
       - DB_NAME=${DB_NAME:-myapp_db}
       - DB_USER=${DB_USER:-admin}
       - DB_PASS=${DB_PASS:-123}
+    volumes:
+      - ./web:/usr/local/tomcat/webapps/ROOT
 
   db:
     image: mysql:8.0

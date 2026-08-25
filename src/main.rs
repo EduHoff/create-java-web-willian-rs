@@ -6,7 +6,7 @@ use create_java_web_willian_rs::builder::{
     generator::{
         download_mysql_connector, generate_build_file, generate_context_file, generate_css_file,
         generate_docker_files, generate_env_files, generate_gitignore_file, generate_index_file,
-        generate_license_file, generate_readme_file,
+        generate_license_file, generate_readme_file, generate_web_xml,
     },
 };
 use dialoguer::{Confirm, Input, theme::ColorfulTheme};
@@ -84,24 +84,29 @@ fn main() {
     }
 
     if let Err(err) = generate_build_file(project_path, &project_name) {
-        eprintln!("Error generating README file: {err}");
+        eprintln!("Error generating build.xml file: {err}");
         std::process::exit(1);
     }
 
     if let Err(err) =
-        generate_context_file(project_path, &project_name, &db_name, &db_user, &db_pass)
+        generate_context_file(project_path, &db_name, &db_user, &db_pass)
     {
-        eprintln!("Error generating README file: {err}");
+        eprintln!("Error generating context.xml file: {err}");
+        std::process::exit(1);
+    }
+
+    if let Err(err) = generate_web_xml(project_path) {
+        eprintln!("Error generating web.xml file: {err}");
         std::process::exit(1);
     }
 
     if let Err(err) = generate_index_file(project_path, &project_name) {
-        eprintln!("Error generating README file: {err}");
+        eprintln!("Error generating index.jsp file: {err}");
         std::process::exit(1);
     }
 
     if let Err(err) = generate_css_file(project_path) {
-        eprintln!("Error generating README file: {err}");
+        eprintln!("Error generating style.css file: {err}");
         std::process::exit(1);
     }
 
