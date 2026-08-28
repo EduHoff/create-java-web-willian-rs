@@ -9,7 +9,7 @@ use create_java_web_willian_rs::builder::{
         generate_license_file, generate_logo_file, generate_readme_file, generate_web_xml,
     },
 };
-use dialoguer::{Confirm, Input, theme::ColorfulTheme};
+use dialoguer::{Confirm, Input, Password, theme::ColorfulTheme};
 use regex::Regex;
 
 fn main() {
@@ -46,15 +46,21 @@ fn main() {
     let (db_user, db_pass, db_name, db_port) = if use_mysql {
         let user = Input::with_theme(&ColorfulTheme::default())
             .with_prompt("Database username")
-            .default("admin".to_string())
+            .default("root".to_string())
             .interact_text()
             .expect("Failed to read database user");
 
-        let pass = Input::with_theme(&ColorfulTheme::default())
+        let input_pass = Password::with_theme(&ColorfulTheme::default())
             .with_prompt("Database password")
-            .default("123".to_string())
-            .interact_text()
+            .allow_empty_password(true)
+            .interact()
             .expect("Failed to read database password");
+
+        let pass = if input_pass.is_empty() {
+            "123".to_string()
+        } else {
+            input_pass
+        };
 
         let name = Input::with_theme(&ColorfulTheme::default())
             .with_prompt("Database name")
@@ -71,7 +77,7 @@ fn main() {
         (user, pass, name, port)
     } else {
         (
-            "admin".to_string(),
+            "root".to_string(),
             "123".to_string(),
             format!("{project_name}_db"),
             "3306".to_string(),
@@ -98,7 +104,7 @@ fn main() {
         std::process::exit(1);
     }
 
-    if let Err(err) = generate_index_file(project_path, &project_name) {
+    if let Err(err) = generate_index_file(project_path, &project_name, &db_name) {
         eprintln!("Error generating index.jsp file: {err}");
         std::process::exit(1);
     }
@@ -130,6 +136,7 @@ fn main() {
 
     if let Err(err) = generate_env_files(
         project_path,
+        &project_name,
         &db_name,
         &db_user,
         &db_pass,
@@ -140,15 +147,7 @@ fn main() {
         std::process::exit(1);
     }
 
-    if let Err(err) = generate_docker_files(
-        project_path,
-        &project_name,
-        &db_name,
-        &db_user,
-        &db_pass,
-        &app_port,
-        &db_port,
-    ) {
+    if let Err(err) = generate_docker_files(project_path) {
         eprintln!("Error generating Docker files: {err}");
         std::process::exit(1);
     }

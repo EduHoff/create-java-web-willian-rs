@@ -66,8 +66,14 @@ pub fn generate_web_xml(project_path: &Path) -> io::Result<()> {
     Ok(())
 }
 
-pub fn generate_index_file(project_path: &Path, project_name: &str) -> io::Result<()> {
-    let content = INDEX_JSP.replace("project_name", project_name);
+pub fn generate_index_file(
+    project_path: &Path,
+    project_name: &str,
+    db_name: &str,
+) -> io::Result<()> {
+    let content = INDEX_JSP
+        .replace("project_name", project_name)
+        .replace("project_db_name", db_name);
 
     let index_file_path = project_path.join("web").join("index.jsp");
 
@@ -128,6 +134,7 @@ pub fn generate_gitignore_file(project_path: &Path) -> io::Result<()> {
 
 pub fn generate_env_files(
     project_path: &Path,
+    project_name: &str,
     db_name: &str,
     db_user: &str,
     db_pass: &str,
@@ -135,6 +142,7 @@ pub fn generate_env_files(
     db_port: &str,
 ) -> io::Result<()> {
     let env_content = ENV_FILE
+        .replace("project_name", project_name)
         .replace("project_db_name", db_name)
         .replace("project_db_user", db_user)
         .replace("project_db_pass", db_pass)
@@ -143,32 +151,15 @@ pub fn generate_env_files(
 
     fs::write(project_path.join(".env"), env_content)?;
 
-    fs::write(project_path.join(".env.example"), ENV_EXAMPLE_FILE)?;
+    fs::write(project_path.join("env.example"), ENV_EXAMPLE_FILE)?;
 
     Ok(())
 }
 
-pub fn generate_docker_files(
-    project_path: &Path,
-    project_name: &str,
-    db_name: &str,
-    db_user: &str,
-    db_pass: &str,
-    app_port: &str,
-    db_port: &str,
-) -> io::Result<()> {
+pub fn generate_docker_files(project_path: &Path) -> io::Result<()> {
     fs::write(project_path.join(".dockerignore"), DOCKERIGNORE)?;
     fs::write(project_path.join("Dockerfile"), DOCKERFILE)?;
-
-    let compose_content = DOCKER_COMPOSE
-        .replace("project_name", project_name)
-        .replace("project_db_name", db_name)
-        .replace("project_db_user", db_user)
-        .replace("project_db_pass", db_pass)
-        .replace("project_app_port", app_port)
-        .replace("project_db_port", db_port);
-
-    fs::write(project_path.join("docker-compose.yml"), compose_content)?;
+    fs::write(project_path.join("docker-compose.yml"), DOCKER_COMPOSE)?;
 
     Ok(())
 }

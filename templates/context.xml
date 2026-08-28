@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context path="" reloadable="true">
-    <Resource name="jdbc/project_db_name"
+    <Resource name="jdbc/app_db"
               auth="Container"
               type="javax.sql.DataSource"
               maxTotal="20"
               maxIdle="10"
               maxWaitMillis="-1"
-              username="project_db_user"
-              password="project_db_pass"
+              username="${db.user}"
+              password="${db.pass}"
               driverClassName="com.mysql.cj.jdbc.Driver"
-              url="jdbc:mysql://db:3306/project_db_name?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC"/>
+              url="jdbc:mysql://${db.host}:${db.port}/${db.name}?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC"/>
 </Context>
